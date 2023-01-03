@@ -1,1 +1,3 @@
-# Tripteaz.github.io
+# Readme
+
+拉取LocalRelease，发布Dev
