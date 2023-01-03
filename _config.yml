@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: CHAsencenge
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
+author: CHAsencenge
 language: en
 timezone: ''
 
@@ -105,4 +105,7 @@ deploy:
   type: git
   repo: https://github.com/CHAsencenge/Tripteaz.github.io.git
   branch: Develop
+
+encrypt:
+  enable: true
 
