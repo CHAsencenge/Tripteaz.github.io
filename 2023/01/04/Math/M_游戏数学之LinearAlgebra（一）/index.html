@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>【Math】 游戏数学之Linear Algebra（一） | CHAsencenge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="游戏数学之liner algebra（一） 当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Math】 游戏数学之Linear Algebra（一）">
+<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="CHAsencenge">
+<meta property="og:description" content="游戏数学之liner algebra（一） 当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear2.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear3.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear4.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear5.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear6.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear7.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear8.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear10.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png">
+<meta property="article:published_time" content="2023-01-04T07:03:01.000Z">
+<meta property="article:modified_time" content="2023-01-04T07:13:40.642Z">
+<meta property="article:author" content="CHAsencenge">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
+  
+    <link rel="alternate" href="/Tripteaz.github.io/atom.xml" title="CHAsencenge" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/Tripteaz.github.io/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/Tripteaz.github.io/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/Tripteaz.github.io/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/Tripteaz.github.io/" id="logo">CHAsencenge</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/Tripteaz.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/Tripteaz.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/Tripteaz.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://chasencenge.github.io/Tripteaz.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Math/M_游戏数学之LinearAlgebra（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2023-01-04T07:03:01.000Z" itemprop="datePublished">2023-01-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      【Math】 游戏数学之Linear Algebra（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="游戏数学之liner-algebra（一）"><a href="#游戏数学之liner-algebra（一）" class="headerlink" title="游戏数学之liner algebra（一）"></a>游戏数学之liner algebra（一）</h1><blockquote>
+<p>当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。</p>
+</blockquote>
+<h2 id="右手系和左手系"><a href="#右手系和左手系" class="headerlink" title="右手系和左手系"></a>右手系和左手系</h2><p>这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。</p>
+<p>一般的设定是，中指为x轴向右，拇指为y轴向上，这样你会发现左手系中食指的指向（z轴正向）是向远离你的方向，右手系中是接近你的方向。</p>
+<p>好的，这样单纯在自己的视角上，算是找得到北了。</p>
+<h2 id="矢量运算"><a href="#矢量运算" class="headerlink" title="矢量运算"></a>矢量运算</h2><ul>
+<li>矢量和标量的乘法</li>
+</ul>
+<p>可以把相乘的标量当作缩放因子，矢量<strong>n，</strong>标量a，a<strong>n</strong> &#x3D; (axnx ,ayny, aznz)，如果a中的每个分量值不同，这种缩放称为非统一缩放。</p>
+<ul>
+<li>矢量的加减法</li>
+</ul>
+<p>矢量的加减法将矢量中每个分量分别相加&#x2F;减即可。</p>
+<ul>
+<li>矢量的模</li>
+</ul>
+<p>用于求长度。</p>
+<p>矢量运算可以用于人物移动，根据本帧位置和速度求人物下一帧位置；还可用于物体的碰撞&#x2F;相交检测（矢量减法再求模）。</p>
+<h2 id="矢量的点积和叉积"><a href="#矢量的点积和叉积" class="headerlink" title="矢量的点积和叉积"></a>矢量的点积和叉积</h2><ul>
+<li>点积有什么用处</li>
+</ul>
+<p>当点积中一个矢量是单位向量时，所得值为另一矢量在该单位向量方向上的投影长度。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png" class>
+
+
+
+<p>利用点积，可以判定两矢量的方向大致在什么样的相对方向上。所得值大于零的话，二者夹角小于90°，反之大于90°（分别对应下图的红色部分和蓝色部分），等于零时二者方向垂直。更多的，还可以判断是否共线或反向共线。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png" class>
+
+
+
+<p>应用的话，你可以考虑这样的功能：当你要实现TPS游戏中的“自由视角”功能时（自由视角是指切换成此类视角时，人物呈原地站立状，鼠标的移动不再和人物的视角方向绑定，通过鼠标的移动，你可以环绕地观察自身角色，当镜头朝向人物时，人物的视线会注视向镜头的方向），为了写镜头在人身后和在前面面向人物的不同逻辑，可以用点积判断二者的相对角度并分写逻辑。</p>
+<p>具体来说，人物位置<strong>P</strong>，相机位置<strong>C，</strong>人物朝向<strong>f</strong>，<strong>C - P</strong>得到人物至相机的矢量，再点积人物朝向<strong>f</strong>。</p>
+<ul>
+<li>关于叉积</li>
+</ul>
+<p>叉积的方向垂直于相乘的两个矢量构成的平面，模为|<strong>a</strong>||<strong>b</strong>|sinθ，叉积模的值等于两矢量构成的平行四边形的面积，叉积可以用于求平面的法矢量。</p>
+<p>要注意的是叉积的方向会根据坐标系的选择而改变，当使用右手坐标系时，叉积方向的判断使用右手法则，左手坐标系时使用左手法则。</p>
+<p>以右手法则举例，四指指向<strong>a</strong>的方向，然后四指向<strong>b</strong>的方向弯曲，拇指的方向就是叉积的方向。</p>
+<h2 id="点和矢量"><a href="#点和矢量" class="headerlink" title="点和矢量"></a>点和矢量</h2><p>矢量这个词有时会表示点（位置矢量），有时会表示方向矢量。</p>
+<p>在点和矢量的计算中，方向和方向之间可加可减，点和方向可加减，但是点与点之间仅可相减，不可相加。</p>
+<p>方向和方向相加减之后仍为方向。</p>
+<p>点和方向相加减之后会得到另一个点。</p>
+<p>点和点之间相减会产生一个方向矢量，但是要注意，点和点之间进行矢量相加并无意义。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear2.png" class>
+
+<h2 id="矩阵变换"><a href="#矩阵变换" class="headerlink" title="矩阵变换"></a>矩阵变换</h2><p>矩阵的线性变换会用于平移、旋转和缩放。变换矩阵为4 x 4的矩阵，可表示任意三维变换，仿射矩阵便是一种4 x 4的变换矩阵，支持仿射变换。</p>
+<p>仿射变换包括平移、旋转、缩放、切边及其任意组合得到的变换。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear3.png" class>
+
+
+
+<p>（图片来源于网络）</p>
+<p>那下面就具体看看平移、旋转、缩放是如何通过矩阵乘法实现的。</p>
+<p>三维中的旋转的实现需要3 x 3矩阵，但仅3 x 3还不足以支持额外的平移，增加一个维度至4 x 4即可。</p>
+<p>如果我想要把一个点向<strong>t</strong>矢量方向进行平移，只需要在矩阵的第四行修改平移因子即可。</p>
+<p>想要将矢量<strong>r</strong>进行旋转时，只需乘以各个方向的旋转变换矩阵，下面列举绕x、y、z轴旋转需乘的旋转矩阵。</p>
+<p>绕x轴旋转角度Φ：</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear4.png" class>
+
+
+
+<p>绕y轴旋转角度θ：（注意绕y轴旋转矩阵的不同，此矩阵是转置的）</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear5.png" class>
+
+
+
+<p>绕z轴旋转角度γ：</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear6.png" class>
+
+
+
+<p>旋转矩阵的逆矩阵也是该旋转矩阵的转置矩阵，旋转矩阵的逆变换从意义上讲是反向的角度旋转。</p>
+<p>缩放的实现是通过将矢量乘上一个对角矩阵（矢量是行矢量还是列矢量在实际设计过程中可根据习惯而定，各有优势，统一标准即可，如果是行矢量，旋转缩放等矩阵都采用右乘，计算顺序从左至右，反之采用左乘，计算顺序从右侧的矢量逐渐向左完成），对角矩阵的(0, 0) (1, 1) (2, 2)处的值分别为三个轴方向上的缩放因子。</p>
+<p>PS：其实到现在可以发现，4 x 4仿射矩阵的最右一列均为[0, 0, 0, 1]，为了节省内存，一些游戏数学库中可能会省略这一列，使用4 x 3的仿射矩阵。</p>
+<p>在坐标空间中，对一个刚体的变换的施加是对刚体中的每一点上的，例如对于一个三角形网格，对其进行的变换会施加到三角形的三个顶点上。</p>
+<h2 id="模型空间"><a href="#模型空间" class="headerlink" title="模型空间"></a>模型空间</h2><p>当你设计控制人物的旋转移动时，一定会经常看到Pitch、Yaw、Roll，可能你按照经验已经知道了对于你所控制的人物，Pitch控制抬头低头这种上下的方向，Yaw会让你往侧面看，而Roll就是不太常用的“歪头杀”了，就像这样 。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear7.png" class>
+
+
+
+<p>但总要搞清楚它们的定义是怎么来的，那就不得不用到这架小飞机了。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear8.png" class>
+
+<p>（图片来源于网络）</p>
+<p>在模型空间中，物体向前移动的方向轴叫做向前轴，向上移动的方向轴叫做向上轴，向左或向右的方向轴叫做向左&#x2F;向右轴（使用哪个取决于游戏引擎采用左手系还是右手系）。</p>
+<ul>
+<li><p>Pitch、Yaw、Roll三者的定义也是绑定这三种轴的，Pitch是绕向左&#x2F;向右轴旋转的角度，叫做俯仰角。</p>
+</li>
+<li><p>Yaw是绕向上轴旋转的角度，叫做偏航角，也是很容易理解的命名，看看你自己的方向是不是偏离了航线。</p>
+</li>
+</ul>
+<p>Roll是绕向前轴旋转的角度，名为滚动角，这个“滚动”就是机翼的摇摆导致的机身滚动，这么看来是不是好记了很多。</p>
+<h2 id="基的变更"><a href="#基的变更" class="headerlink" title="基的变更"></a>基的变更</h2><p>终于来到了“找不到北”的根源：基的变更。</p>
+<p>基的变更就是指在计算机图形学中，把物体的位置、方向、缩放从某个坐标系转换到另一个坐标系中。</p>
+<p>坐标系本身就是相对的，除了世界空间，其他的坐标系都是相对于另外一组坐标系的，它本身也成为那个坐标系的子坐标系。</p>
+<p>我想要把子空间位置矢量<strong>P</strong>c变换至父空间位置矢量<strong>P</strong>p，首先定义一个把点&#x2F;矢量从子坐标空间变换至父空间的矩阵<strong>M</strong>C-&gt;P，则<strong>P</strong>p &#x3D; <strong>P</strong>c <strong>M</strong>C-&gt;P。</p>
+<p><strong>M</strong>C-&gt;P为：</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear10.png" class>
+
+
+
+<p>其中<strong>i</strong>c、<strong>j</strong>c、<strong>k</strong>c分别为子空间x、y、z轴的单位基矢量（以父空间坐标表示），<strong>t</strong>c为子坐标系相对于父坐标系的平移。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png" class>
+
+
+
+<p>在父空间中表示上面的<strong>i</strong>c、<strong>j</strong>c可以发现它恰好对应了前面的旋转矩阵中的对应行。</p>
+<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png" class>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="clchbpmy90000rgyp6kch0x4t" data-title="【Math】 游戏数学之Linear Algebra（一）" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">【Theory】 色彩空间</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Essay/">Essay</a></li><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/Tripteaz.github.io/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/">【Math】 游戏数学之Linear Algebra（一）</a>
+          </li>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/">【Theory】 色彩空间</a>
+          </li>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CD_JH_209/">CD_JH_209</a>
+          </li>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CD_JH_210/">CD_JH_210</a>
+          </li>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 CHAsencenge<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/Tripteaz.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/Tripteaz.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/Tripteaz.github.io/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/Tripteaz.github.io/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/Tripteaz.github.io/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
