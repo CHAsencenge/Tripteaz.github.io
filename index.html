@@ -71,12 +71,16 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Essay/CountDown_JobHopping209" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Rendering/RenderingTheory_色彩空间" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/" class="article-date">
-  <time class="dt-published" datetime="2023-01-04T03:32:25.000Z" itemprop="datePublished">2023-01-04</time>
+    <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/" class="article-date">
+  <time class="dt-published" datetime="2023-01-04T06:21:39.000Z" itemprop="datePublished">2023-01-04</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a>►<a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -85,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/">post</a>
+      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/">【Theory】 色彩空间</a>
     </h1>
   
 
@@ -93,11 +97,99 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
+        <p><strong>关于标准</strong></p>
+<p>SDR通常使用sRGB&#x2F;BT.709, BT.601；HDR通常使用BT.2020, DCI-P3, sRGB(for gaming)，在DX12中体现为色彩空间枚举内容的一部分。</p>
+<p><strong>Blending表现上</strong></p>
+<p>Perceptual blend模仿人类对颜色的感知，平滑过渡。</p>
+<p>Linear blend基于光的物理行为来混合颜色。如相机中的焦距模糊将颜色混合在一起，在远处观看两种颜色的图案。</p>
+<p>sRGB blend是计算机软件中混合颜色的方式，表现上是混合时发暗发蓝，历史包袱是CRT显示器的工作方式。</p>
+<p><strong>颜色感知</strong></p>
+<p>需要对光谱进行复杂的非线性转换，已有相应的模型；眼睛是不能感知全光谱的光的，视锥细胞（cones）是对颜色有感知反应细胞，会对一定范围内的波长做出反应，cones依据感知波长区间敏感度来分类：长，中，短，LMS；长对应红色，中到绿色，短到蓝色（红色波长最长，蓝色最短）。</p>
+<p>只要响应相同，不同光谱可以产生相同的“感知颜色”。例如，彩色显示器通过结合红色、绿色和蓝色的光产生广泛的颜色。印刷作品类似地使用青色、品红和黄色墨水，彩色涂料是通过混合各种颜料来达到所需的颜色。</p>
+<p>色调、亮度、色彩等其实不是光的基本属性，它们的数值模拟是经验拟合的非线性模型。</p>
+<p><strong>数学方法描述</strong></p>
+<p>三种原色组合，CIE 1931 XYZ颜色空间将颜色表示为三个值:X、Y和Z。</p>
+<p><strong>什么是色彩空间</strong></p>
+<p>将颜色映射到数字，进行描述需要一组基色（primary color）集合，和一个非线性转换函数（transfer function）。</p>
+<p>常用的Transfer function的形式是<br>$$<br>f(x) &#x3D; x^γ， γ &#x3D; 1&#x2F;2.2<br>$$<br><strong>色域&#x2F;色饱和度</strong></p>
+<p>选择的原色影响了可见颜色的哪部分可被表示，能被表示的部分为色域（gamut）。</p>
+<p>色域之外的许多颜色仍然是有效的颜色，它们只是不能在给定的色彩空间中进行编码。</p>
+<p><strong>不能被编码的颜色</strong>可以分两类：</p>
+<p>一个或多个RGB值大于1，但没有负值：这些颜色对于色彩空间来说太亮了，但是可以在较低的亮度下进行编码。</p>
+<p>一个或多个负数：这些颜色比色彩空间能够编码的颜色更丰富多彩。其中一些可以是真实的颜色，但也可以是比物理可能的颜色更丰富的颜色。这是颜色线性编码的结果，它能够编码现实生活中不存在的颜色。</p>
+<p>更宽的色域需要更高数据精度存储颜色，普通显示器可能无法显示所有颜色。</p>
+<p><strong>色彩管理</strong></p>
+<p>对色彩空间的信息进行编码，将颜色转换为设备的正确色彩空间。</p>
+<p>不主动管理颜色的应用程序，sRGB已成为标准。</p>
+<p><strong>色彩操作</strong></p>
+<p>有意义的有三类：</p>
+<p>符合真实光照和材料的行为。</p>
+<p>与人对色彩感知相匹配。</p>
+<p>风格化。</p>
+<p><strong>色彩比较</strong></p>
+<p>sRGB和Linear都不能做到和色调感知一致的有色与白色的混合。</p>
+<p>混合饱和相反的颜色时，sRGB表现为变暗。</p>
+<p>混合黑白，sRGB和感知色彩空间差不多。</p>
+<p><strong>HSL&#x2F;HSV</strong></p>
+<p>色调、饱和度、亮度&#x2F;值。</p>
+<p>它们不是颜色空间，是将RGB颜色空间重新映射到更容易使用的参数的方法。</p>
+<p>因此它们共享它们所基于的RGB颜色空间的属性。</p>
+<p><strong>Ref：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://bottosson.github.io/posts/colorwrong/">How software gets color wrong</a></p>
+<p><a target="_blank" rel="noopener" href="https://bottosson.github.io/posts/gamutclipping/">sRGB gamut clipping</a></p>
+<p><a target="_blank" rel="noopener" href="https://indico.freedesktop.org/event/2/contributions/56/attachments/64/105/2022%20XDC%20Is%20HDR%20Harder.pdf">AMD: Is HDR Harder？</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/" data-id="clcha9ctq0000csypcrj06va5" data-title="【Theory】 色彩空间" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Essay/CountDown_JobHopping209" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/" class="article-date">
+  <time class="dt-published" datetime="2023-01-04T03:32:25.000Z" itemprop="datePublished">2023-01-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/Tripteaz.github.io/categories/Essay/">Essay</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/">CD_JH_209</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        Here's something encrypted, password is required to continue reading.
+        
+          <p class="article-more-link">
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/#more">Read More</a>
+          </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/" data-id="clch9pny000006kyp9iqphz8n" data-title="post" class="article-share-link">Share</a>
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/" data-id="clch9pny000006kyp9iqphz8n" data-title="CD_JH_209" class="article-share-link">Share</a>
       
       
       
@@ -127,7 +219,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/">CountDown_JobHopping210</a>
+      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/">CD_JH_210</a>
     </h1>
   
 
@@ -144,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/" data-id="clch9pny300016kypeheu5nt8" data-title="CountDown_JobHopping210" class="article-share-link">Share</a>
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/" data-id="clch9pny300016kypeheu5nt8" data-title="CD_JH_210" class="article-share-link">Share</a>
       
       
       
@@ -163,7 +255,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a>►<a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/RenderingTheory/">RenderingTheory</a>
+    <a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a>►<a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a>
   </div>
 
   </div>
@@ -174,7 +266,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">RenderingTheory_HZB</a>
+      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇</a>
     </h1>
   
 
@@ -182,7 +274,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h3 id="Rendering-遮挡剔除与层次Z缓冲（上）——原理篇"><a href="#Rendering-遮挡剔除与层次Z缓冲（上）——原理篇" class="headerlink" title="[Rendering] 遮挡剔除与层次Z缓冲（上）——原理篇"></a>[Rendering] 遮挡剔除与层次Z缓冲（上）——原理篇</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p><strong>遮挡剔除（Occlusion Culling，OC）</strong>属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。</p>
+        <hr>
+<h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p><strong>遮挡剔除（Occlusion Culling，OC）</strong>属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。</p>
 <p><strong>层次Z缓冲（Hierarchical Z-Buffering，HZB）</strong>是GPU实现z-culling的硬件方法的基础。</p>
 <h4 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h4><h5 id="2-1-z-buffer和z-culling"><a href="#2-1-z-buffer和z-culling" class="headerlink" title="2.1 z-buffer和z-culling"></a>2.1 z-buffer和z-culling</h5><p>在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，这一过程叫做深度测试，若新的深度值更小，则取代buffer中的旧值。场景中所有物体会执行这一过程，得到最终更新后的z-buffer，这一过程叫做z-culling。</p>
 <h5 id="2-2-depth-complexity"><a href="#2-2-depth-complexity" class="headerlink" title="2.2 depth complexity"></a>2.2 depth complexity</h5><p>指单一像素点覆盖了多少层物体表面，注意这里是surface layer的概念，例如下图中间像素的depth complexity &#x3D; 10，因为因为穿过了10个sphere的表面（假设backface culling开启，不算背面）。</p>
@@ -241,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" data-id="clch1p7nr0000l8ypgehy3zy4" data-title="RenderingTheory_HZB" class="article-share-link">Share</a>
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" data-id="clch1p7nr0000l8ypgehy3zy4" data-title="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇" class="article-share-link">Share</a>
       
       
       
@@ -263,7 +356,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Essay/">Essay</a></li><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/RenderingTheory/">RenderingTheory</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Essay/">Essay</a></li><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -291,15 +384,19 @@
       <ul>
         
           <li>
-            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/">post</a>
+            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/">【Theory】 色彩空间</a>
           </li>
         
           <li>
-            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/">CountDown_JobHopping210</a>
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/">CD_JH_209</a>
           </li>
         
           <li>
-            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">RenderingTheory_HZB</a>
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/">CD_JH_210</a>
+          </li>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇</a>
           </li>
         
       </ul>

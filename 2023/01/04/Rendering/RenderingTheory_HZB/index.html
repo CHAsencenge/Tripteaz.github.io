@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   
   
-  <title>RenderingTheory_HZB | CHAsencenge</title>
+  <title>【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇 | CHAsencenge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="[Rendering] 遮挡剔除与层次Z缓冲（上）——原理篇1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射">
+  <meta name="description" content="1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RenderingTheory_HZB">
+<meta property="og:title" content="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇">
 <meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/index.html">
 <meta property="og:site_name" content="CHAsencenge">
-<meta property="og:description" content="[Rendering] 遮挡剔除与层次Z缓冲（上）——原理篇1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射">
+<meta property="og:description" content="1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb0.png">
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb1.png">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb3.png">
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb4.png">
 <meta property="article:published_time" content="2023-01-04T02:29:43.000Z">
-<meta property="article:modified_time" content="2023-01-04T03:27:01.186Z">
+<meta property="article:modified_time" content="2023-01-04T06:37:28.313Z">
 <meta property="article:author" content="CHAsencenge">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb0.png">
@@ -86,7 +86,7 @@
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a>►<a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/RenderingTheory/">RenderingTheory</a>
+    <a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a>►<a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a>
   </div>
 
   </div>
@@ -97,7 +97,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      RenderingTheory_HZB
+      【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇
     </h1>
   
 
@@ -105,7 +105,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h3 id="Rendering-遮挡剔除与层次Z缓冲（上）——原理篇"><a href="#Rendering-遮挡剔除与层次Z缓冲（上）——原理篇" class="headerlink" title="[Rendering] 遮挡剔除与层次Z缓冲（上）——原理篇"></a>[Rendering] 遮挡剔除与层次Z缓冲（上）——原理篇</h3><h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p><strong>遮挡剔除（Occlusion Culling，OC）</strong>属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。</p>
+        <hr>
+<h4 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h4><p><strong>遮挡剔除（Occlusion Culling，OC）</strong>属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。</p>
 <p><strong>层次Z缓冲（Hierarchical Z-Buffering，HZB）</strong>是GPU实现z-culling的硬件方法的基础。</p>
 <h4 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h4><h5 id="2-1-z-buffer和z-culling"><a href="#2-1-z-buffer和z-culling" class="headerlink" title="2.1 z-buffer和z-culling"></a>2.1 z-buffer和z-culling</h5><p>在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，这一过程叫做深度测试，若新的深度值更小，则取代buffer中的旧值。场景中所有物体会执行这一过程，得到最终更新后的z-buffer，这一过程叫做z-culling。</p>
 <h5 id="2-2-depth-complexity"><a href="#2-2-depth-complexity" class="headerlink" title="2.2 depth complexity"></a>2.2 depth complexity</h5><p>指单一像素点覆盖了多少层物体表面，注意这里是surface layer的概念，例如下图中间像素的depth complexity &#x3D; 10，因为因为穿过了10个sphere的表面（假设backface culling开启，不算背面）。</p>
@@ -164,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" data-id="clch1p7nr0000l8ypgehy3zy4" data-title="RenderingTheory_HZB" class="article-share-link">Share</a>
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" data-id="clch1p7nr0000l8ypgehy3zy4" data-title="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇" class="article-share-link">Share</a>
       
       
       
@@ -178,7 +179,7 @@
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          CountDown_JobHopping210
+          CD_JH_210
         
       </div>
     </a>
@@ -198,7 +199,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Essay/">Essay</a></li><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/RenderingTheory/">RenderingTheory</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Essay/">Essay</a></li><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -226,15 +227,19 @@
       <ul>
         
           <li>
-            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/">post</a>
+            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4/">【Theory】 色彩空间</a>
           </li>
         
           <li>
-            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/">CountDown_JobHopping210</a>
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping209/">CD_JH_209</a>
           </li>
         
           <li>
-            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">RenderingTheory_HZB</a>
+            <a href="/Tripteaz.github.io/2023/01/04/Essay/CountDown_JobHopping210/">CD_JH_210</a>
+          </li>
+        
+          <li>
+            <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/">【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇</a>
           </li>
         
       </ul>
