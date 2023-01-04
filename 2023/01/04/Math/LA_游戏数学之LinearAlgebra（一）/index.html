@@ -9,27 +9,27 @@
   <meta name="description" content="当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为x轴向右，拇指为y轴向上，这样你会发现左手">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Math】 游戏数学之Linear Algebra（一）">
-<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="CHAsencenge">
 <meta property="og:description" content="当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为x轴向右，拇指为y轴向上，这样你会发现左手">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear2.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear3.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear4.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear5.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear6.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear7.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear8.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear10.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear2.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear3.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear4.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear5.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear6.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear7.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear8.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear10.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png">
 <meta property="article:published_time" content="2023-01-04T07:03:01.000Z">
 <meta property="article:modified_time" content="2023-01-04T07:20:52.262Z">
 <meta property="article:author" content="CHAsencenge">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
+<meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
   
     <link rel="alternate" href="/Tripteaz.github.io/atom.xml" title="CHAsencenge" type="application/atom+xml">
   
@@ -86,12 +86,16 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Math/M_游戏数学之LinearAlgebra（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-Math/LA_游戏数学之LinearAlgebra（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+    <a href="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
   <time class="dt-published" datetime="2023-01-04T07:03:01.000Z" itemprop="datePublished">2023-01-04</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/Tripteaz.github.io/categories/Math/">Math</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -131,12 +135,12 @@
 <li>点积有什么用处</li>
 </ul>
 <p>当点积中一个矢量是单位向量时，所得值为另一矢量在该单位向量方向上的投影长度。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png" class>
 
 
 
 <p>利用点积，可以判定两矢量的方向大致在什么样的相对方向上。所得值大于零的话，二者夹角小于90°，反之大于90°（分别对应下图的红色部分和蓝色部分），等于零时二者方向垂直。更多的，还可以判断是否共线或反向共线。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png" class>
 
 
 
@@ -153,11 +157,11 @@
 <p>方向和方向相加减之后仍为方向。</p>
 <p>点和方向相加减之后会得到另一个点。</p>
 <p>点和点之间相减会产生一个方向矢量，但是要注意，点和点之间进行矢量相加并无意义。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear2.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear2.png" class>
 
 <h2 id="矩阵变换"><a href="#矩阵变换" class="headerlink" title="矩阵变换"></a>矩阵变换</h2><p>矩阵的线性变换会用于平移、旋转和缩放。变换矩阵为4 x 4的矩阵，可表示任意三维变换，仿射矩阵便是一种4 x 4的变换矩阵，支持仿射变换。</p>
 <p>仿射变换包括平移、旋转、缩放、切边及其任意组合得到的变换。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear3.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear3.png" class>
 
 
 
@@ -167,17 +171,17 @@
 <p>如果我想要把一个点向<strong>t</strong>矢量方向进行平移，只需要在矩阵的第四行修改平移因子即可。</p>
 <p>想要将矢量<strong>r</strong>进行旋转时，只需乘以各个方向的旋转变换矩阵，下面列举绕x、y、z轴旋转需乘的旋转矩阵。</p>
 <p>绕x轴旋转角度Φ：</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear4.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear4.png" class>
 
 
 
 <p>绕y轴旋转角度θ：（注意绕y轴旋转矩阵的不同，此矩阵是转置的）</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear5.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear5.png" class>
 
 
 
 <p>绕z轴旋转角度γ：</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear6.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear6.png" class>
 
 
 
@@ -186,12 +190,12 @@
 <p>PS：其实到现在可以发现，4 x 4仿射矩阵的最右一列均为[0, 0, 0, 1]，为了节省内存，一些游戏数学库中可能会省略这一列，使用4 x 3的仿射矩阵。</p>
 <p>在坐标空间中，对一个刚体的变换的施加是对刚体中的每一点上的，例如对于一个三角形网格，对其进行的变换会施加到三角形的三个顶点上。</p>
 <h2 id="模型空间"><a href="#模型空间" class="headerlink" title="模型空间"></a>模型空间</h2><p>当你设计控制人物的旋转移动时，一定会经常看到Pitch、Yaw、Roll，可能你按照经验已经知道了对于你所控制的人物，Pitch控制抬头低头这种上下的方向，Yaw会让你往侧面看，而Roll就是不太常用的“歪头杀”了，就像这样 。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear7.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear7.png" class>
 
 
 
 <p>但总要搞清楚它们的定义是怎么来的，那就不得不用到这架小飞机了。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear8.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear8.png" class>
 
 <p>（图片来源于网络）</p>
 <p>在模型空间中，物体向前移动的方向轴叫做向前轴，向上移动的方向轴叫做向上轴，向左或向右的方向轴叫做向左&#x2F;向右轴（使用哪个取决于游戏引擎采用左手系还是右手系）。</p>
@@ -207,22 +211,22 @@
 <p>坐标系本身就是相对的，除了世界空间，其他的坐标系都是相对于另外一组坐标系的，它本身也成为那个坐标系的子坐标系。</p>
 <p>我想要把子空间位置矢量<strong>P</strong>c变换至父空间位置矢量<strong>P</strong>p，首先定义一个把点&#x2F;矢量从子坐标空间变换至父空间的矩阵<strong>M</strong>C-&gt;P，则<strong>P</strong>p &#x3D; <strong>P</strong>c <strong>M</strong>C-&gt;P。</p>
 <p><strong>M</strong>C-&gt;P为：</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear10.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear10.png" class>
 
 
 
 <p>其中<strong>i</strong>c、<strong>j</strong>c、<strong>k</strong>c分别为子空间x、y、z轴的单位基矢量（以父空间坐标表示），<strong>t</strong>c为子坐标系相对于父坐标系的平移。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png" class>
 
 
 
 <p>在父空间中表示上面的<strong>i</strong>c、<strong>j</strong>c可以发现它恰好对应了前面的旋转矩阵中的对应行。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png" class>
+<img src="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png" class>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="clchbpmy90000rgyp6kch0x4t" data-title="【Math】 游戏数学之Linear Algebra（一）" class="article-share-link">Share</a>
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="clche85th0000s4yp240lejee" data-title="【Math】 游戏数学之Linear Algebra（一）" class="article-share-link">Share</a>
       
       
       
@@ -232,10 +236,19 @@
     
 <nav id="article-nav">
   
+    <a href="/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          【Math】 游戏数学之Linear Algebra（一）
+        
+      </div>
+    </a>
   
-    <a href="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/Tripteaz.github.io/2023/01/04/Math/LA_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%BA%8C%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">【Math】 游戏数学之Linear Algebra（一）</div>
+      <div class="article-nav-title">【Math】 游戏数学之Linear Algebra（二）</div>
     </a>
   
 </nav>
