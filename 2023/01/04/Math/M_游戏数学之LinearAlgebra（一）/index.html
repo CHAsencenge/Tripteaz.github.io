@@ -6,12 +6,12 @@
   
   <title>【Math】 游戏数学之Linear Algebra（一） | CHAsencenge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="游戏数学之liner algebra（一） 当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为">
+  <meta name="description" content="当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为x轴向右，拇指为y轴向上，这样你会发现左手">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Math】 游戏数学之Linear Algebra（一）">
 <meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="CHAsencenge">
-<meta property="og:description" content="游戏数学之liner algebra（一） 当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为">
+<meta property="og:description" content="当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。  右手系和左手系这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。 一般的设定是，中指为x轴向右，拇指为y轴向上，这样你会发现左手">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear1.png">
@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
 <meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear11.png">
 <meta property="article:published_time" content="2023-01-04T07:03:01.000Z">
-<meta property="article:modified_time" content="2023-01-04T07:15:51.539Z">
+<meta property="article:modified_time" content="2023-01-04T07:20:52.262Z">
 <meta property="article:author" content="CHAsencenge">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Math/M_%E6%B8%B8%E6%88%8F%E6%95%B0%E5%AD%A6%E4%B9%8BLinearAlgebra%EF%BC%88%E4%B8%80%EF%BC%89/linear0.png">
@@ -112,7 +112,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="游戏数学之liner-algebra（一）"><a href="#游戏数学之liner-algebra（一）" class="headerlink" title="游戏数学之liner algebra（一）"></a>游戏数学之liner algebra（一）</h1><blockquote>
+        <blockquote>
 <p>当你发现自己一进游戏世界就找不到北的时候，你心里就该清楚这点了，欠下线代大爹的债死也不还总是要还的。</p>
 </blockquote>
 <h2 id="右手系和左手系"><a href="#右手系和左手系" class="headerlink" title="右手系和左手系"></a>右手系和左手系</h2><p>这个找不到北的问题的起点，可能要从坐标系说起，左手系和右手系的区别在于它们笛卡尔坐标轴中有一个轴的方向是不同的（在游戏中通常为z轴），一个判断左手系和右手系的方法，拇指食指中指三者两两呈90°摆好，看看哪个手对的上。</p>
