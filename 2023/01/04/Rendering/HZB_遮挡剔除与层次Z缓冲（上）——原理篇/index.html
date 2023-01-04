@@ -9,20 +9,20 @@
   <meta name="description" content="1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇">
-<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/index.html">
+<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/index.html">
 <meta property="og:site_name" content="CHAsencenge">
 <meta property="og:description" content="1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb0.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb1.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb2.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb3.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb4.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb0.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb1.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb2.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb3.png">
+<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb4.png">
 <meta property="article:published_time" content="2023-01-04T02:29:43.000Z">
 <meta property="article:modified_time" content="2023-01-04T06:37:28.313Z">
 <meta property="article:author" content="CHAsencenge">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb0.png">
+<meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb0.png">
   
     <link rel="alternate" href="/Tripteaz.github.io/atom.xml" title="CHAsencenge" type="application/atom+xml">
   
@@ -79,12 +79,16 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Rendering/RenderingTheory_HZB" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-Rendering/HZB_遮挡剔除与层次Z缓冲（上）——原理篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" class="article-date">
+    <a href="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/" class="article-date">
   <time class="dt-published" datetime="2023-01-04T02:29:43.000Z" itemprop="datePublished">2023-01-04</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/">Rendering</a>►<a class="article-category-link" href="/Tripteaz.github.io/categories/Rendering/Theory/">Theory</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -106,7 +110,7 @@
 <p><strong>层次Z缓冲（Hierarchical Z-Buffering，HZB）</strong>是GPU实现z-culling的硬件方法的基础。</p>
 <h4 id="2-基本概念"><a href="#2-基本概念" class="headerlink" title="2. 基本概念"></a>2. 基本概念</h4><h5 id="2-1-z-buffer和z-culling"><a href="#2-1-z-buffer和z-culling" class="headerlink" title="2.1 z-buffer和z-culling"></a>2.1 z-buffer和z-culling</h5><p>在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，这一过程叫做深度测试，若新的深度值更小，则取代buffer中的旧值。场景中所有物体会执行这一过程，得到最终更新后的z-buffer，这一过程叫做z-culling。</p>
 <h5 id="2-2-depth-complexity"><a href="#2-2-depth-complexity" class="headerlink" title="2.2 depth complexity"></a>2.2 depth complexity</h5><p>指单一像素点覆盖了多少层物体表面，注意这里是surface layer的概念，例如下图中间像素的depth complexity &#x3D; 10，因为因为穿过了10个sphere的表面（假设backface culling开启，不算背面）。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb0.png" class title="This is an image">
+<img src="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb0.png" class title="This is an image">
 
 
 
@@ -115,7 +119,7 @@
 <p>对于front-to-back渲染，尽管省去了重复pixel shading的开销，但10个sphere表面上的三角形仍然经历了光栅化，也依次执行了深度计算的深度测试。</p>
 <p>OC的引入使得被遮蔽的物体直接不传入渲染管线，能够规避更多的无谓开销。</p>
 <h4 id="4-遮挡剔除算法"><a href="#4-遮挡剔除算法" class="headerlink" title="4. 遮挡剔除算法"></a>4. 遮挡剔除算法</h4><h5 id="4-1-可见性判断划分"><a href="#4-1-可见性判断划分" class="headerlink" title="4.1 可见性判断划分"></a>4.1 可见性判断划分</h5><p>根据viewing location形式来划分，对于可见性的确定可以是<strong>point-based</strong>的，也可以是<strong>cell-based</strong>的。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb1.png" class title="This is an image">
+<img src="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb1.png" class title="This is an image">
 
 
 
@@ -137,10 +141,10 @@
 <h4 id="6-层次Z缓冲"><a href="#6-层次Z缓冲" class="headerlink" title="6. 层次Z缓冲"></a>6. 层次Z缓冲</h4><p>层次Z缓冲的实现基于GPU的Occlusion Query，因此也是在image space中完成。</p>
 <h5 id="6-1-数据准备"><a href="#6-1-数据准备" class="headerlink" title="6.1 数据准备"></a>6.1 数据准备</h5><p>主要包括将场景模型保存在八叉树和z-pyramid构建。</p>
 <p>在HZB中，场景模型保存在一个八叉树中，算法中遍历的单位是octree node。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb2.png" class title="This is an image">
+<img src="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb2.png" class title="This is an image">
 
 <p><strong>z-pyramid</strong>是指将一帧的z-buffer处理为一个图像金字塔（image pyramid），z-pyramid有层次概念，最高分辨率级别（finest level）其实就是标准的z-buffer，也就是金字塔底，然后向上依次降低分辨率，注意处理的方式并不是取平均，而是取2x2网格中的深度最大值（要这样设定的<strong>原因</strong>是，检测时会优先在低分辨率层级，也就是趋近金字塔顶的层级执行，在低分辨率层级中记录2x2网格最深的值，递推到金字塔顶，记录下来的就是最深的几个值，如果box的最近点比这个还远说明被遮蔽，向下检测同理），每当z-buffer中的z-value被覆写时，要沿z-pyramid的各个level递归传递更新。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb3.png" class title="This is an image">
+<img src="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb3.png" class title="This is an image">
 
 <h5 id="6-2-场景中遮挡区域的层次剔除"><a href="#6-2-场景中遮挡区域的层次剔除" class="headerlink" title="6.2 场景中遮挡区域的层次剔除"></a>6.2 场景中遮挡区域的层次剔除</h5><p>这一步的作用是让后续的测试能使用之前已渲染物体的遮蔽信息。</p>
 <p>由于场景模型已保存在八叉树中，场景中遮挡区域的层次剔除由此八叉树支持。</p>
@@ -150,7 +154,7 @@
 <p>如果最终几何体确定是潜在可见的，那么渲染到hierarchical z-buffer（见上文4.2）</p>
 <h5 id="6-3-HZB流程"><a href="#6-3-HZB流程" class="headerlink" title="6.3 HZB流程"></a>6.3 HZB流程</h5><p><strong>用已有遮蔽信息（z-buffer）生成z-pyramid</strong>，初始的遮蔽信息可由“best” occluders提供，什么是“best”呢，一般选择<strong>最近的n个</strong>objects组成的集合，或者<strong>人工生成</strong>的occluder primitives，或者使用<strong>上一帧</strong>的可视物信息（见6.2）。</p>
 <p><strong>将物体的BV</strong>（通常用AABB, OBB, sphere）<strong>投影到screen space，根据公式估计对应的z-pyramid等级</strong>。投影后的最长边用于确定mip level，n代表总mip数，l是投影最长边长度（screen space）。</p>
-<img src="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/hzb4.png" class title="This is an image">
+<img src="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb4.png" class title="This is an image">
 
 <p>经过公式确定的层级，能够保证BV在相应的mip里最多覆盖2*2个深度值。</p>
 <p>确定完要使用的z-pyramid层级后，<strong>用BV的z<del>min</del>（BV的最小深度值）和所覆盖的深度值（最多四个）比较，如果z<del>min</del>比所有值都大，被遮蔽</strong>。<strong>否则（z<del>min</del>比任一值小），不被遮蔽，需要渲染</strong>。</p>
@@ -161,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" data-id="clch1p7nr0000l8ypgehy3zy4" data-title="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇" class="article-share-link">Share</a>
+      <a data-url="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/" data-id="clche78dn00013gypdv7g5olt" data-title="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇" class="article-share-link">Share</a>
       
       
       
@@ -171,20 +175,15 @@
     
 <nav id="article-nav">
   
-    <a href="/Tripteaz.github.io/2023/01/04/Essay/CD_JH_210/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/Tripteaz.github.io/2023/01/04/Rendering/RenderingTheory_HZB/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          CD_JH_210
+          【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇
         
       </div>
     </a>
   
-  
-    <a href="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇</div>
-    </a>
   
 </nav>
 
