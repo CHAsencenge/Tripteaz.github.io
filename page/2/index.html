@@ -4,25 +4,15 @@
   <meta charset="utf-8">
   
   
-  <title>【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇 | CHAsencenge</title>
+  <title>CHAsencenge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇">
-<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="CHAsencenge">
+<meta property="og:url" content="https://chasencenge.github.io/Tripteaz.github.io/page/2/index.html">
 <meta property="og:site_name" content="CHAsencenge">
-<meta property="og:description" content="1. 简介遮挡剔除（Occlusion Culling，OC）属加速算法，用于剔除从视点看向场景时的被遮蔽的物体，减少不必要的渲染开销。 层次Z缓冲（Hierarchical Z-Buffering，HZB）是GPU实现z-culling的硬件方法的基础。 2. 基本概念2.1 z-buffer和z-culling在管线中，当一个物体投射到屏幕，像素深度值会和buffer中已存的深度值进行比较，">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb0.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb1.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb2.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb3.png">
-<meta property="og:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb4.png">
-<meta property="article:published_time" content="2023-01-04T02:29:43.000Z">
-<meta property="article:modified_time" content="2023-01-04T06:37:28.313Z">
 <meta property="article:author" content="CHAsencenge">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chasencenge.github.io/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/hzb0.png">
   
     <link rel="alternate" href="/Tripteaz.github.io/atom.xml" title="CHAsencenge" type="application/atom+xml">
   
@@ -79,7 +69,9 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Rendering/HZB_遮挡剔除与层次Z缓冲（上）——原理篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main">
+  
+    <article id="post-Rendering/HZB_遮挡剔除与层次Z缓冲（上）——原理篇" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/" class="article-date">
   <time class="dt-published" datetime="2023-01-04T02:29:43.000Z" itemprop="datePublished">2023-01-04</time>
@@ -96,8 +88,8 @@
       <header class="article-header">
         
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Tripteaz.github.io/2023/01/04/Rendering/HZB_%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4%E4%B8%8E%E5%B1%82%E6%AC%A1Z%E7%BC%93%E5%86%B2%EF%BC%88%E4%B8%8A%EF%BC%89%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E7%AF%87/">【Rendering】 遮挡剔除与层次Z缓冲（上）——原理篇</a>
     </h1>
   
 
@@ -172,24 +164,17 @@
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/Tripteaz.github.io/2023/01/04/Essay/CD_JH_210/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          CD_JH_210
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
-  
 </article>
 
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/Tripteaz.github.io/">&laquo; Prev</a><a class="page-number" href="/Tripteaz.github.io/">1</a><span class="page-number current">2</span>
+  </nav>
 
 </section>
         
